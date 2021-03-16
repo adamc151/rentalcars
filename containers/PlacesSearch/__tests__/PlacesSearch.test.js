@@ -1,5 +1,5 @@
 const nock = require("nock");
-import Homepage from '../Homepage';
+import PlacesSearch from '../PlacesSearch';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import manchesterMock from '../__mocks__/manchester.json';
 
@@ -17,7 +17,7 @@ test('Displays results of search', async () => {
 
     setupMock(6, 'manchester', manchesterMock)
 
-    render(<Homepage />);
+    render(<PlacesSearch />);
     const input = screen.getByLabelText('Pickup location')
 
     fireEvent.change(input, { target: { value: 'manchester' } })
@@ -30,7 +30,7 @@ test('1 character', async () => {
     setupMock(6, 'm', manchesterMock);
     setupMock(6, 'ma', manchesterMock);
 
-    render(<Homepage />);
+    render(<PlacesSearch />);
     const input = screen.getByLabelText('Pickup location')
 
     //Don't display results when 1 character is entered  

@@ -3,6 +3,8 @@
 }
 
 .listWrapper {
+  position: absolute;
+  width: 100%;
   padding: 0;
   margin: 0;
   background-color: white;
@@ -19,7 +21,11 @@
   cursor: pointer;
 }
 
-.lineItem:hover {
+.lineItem:last-child {
+  border-bottom: 0;
+}
+
+.lineItem[aria-selected="true"] {
   background-color: #e6f4fe;
 }
 

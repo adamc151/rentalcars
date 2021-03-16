@@ -9,11 +9,22 @@ const placeTypes = {
     D: <div className={`${styles.placeType} ${styles.district}`}>District</div>
 }
 
-const SearchResults = ({ results }) => {
+const SearchResults = ({ results, selectedIndex, onClickItem, onMouseEnterItem }) => {
+
+    if (!results?.length) return null;
+
     return <div className={styles.wrapper}>
-        <ul className={styles.listWrapper}>
-            {results && results.map((place) => {
-                return <li className={styles.lineItem}>
+        {results ? (<ul className={styles.listWrapper} role="listbox" aria-activedescendant="listItem0" tabIndex="0" aria-labelledby="exp_input" >
+            {results.map((place, i) => {
+                return <li
+                    className={styles.lineItem}
+                    key={i}
+                    role="option"
+                    id={`listItem${i}`}
+                    aria-selected={i === selectedIndex}
+                    onMouseEnter={() => onMouseEnterItem(i, place)}
+                    onClick={() => onClickItem(i, place)}
+                >
                     {placeTypes[place.placeType]}
                     <div className={styles.placeDetails}>
                         <div className={styles.placeName}>{place.name} {place.iata ? `(${place.iata})` : ''}</div>
@@ -21,7 +32,7 @@ const SearchResults = ({ results }) => {
                     </div>
                 </li>
             })}
-        </ul>
+        </ul>) : null}
     </div >
 }
 
