@@ -21,6 +21,21 @@ describe("test", () => {
         expect(result.current.isLoading).toEqual(false);
     });
 
+    test("should hadle api error (api not mocked)", async () => {
+
+        const { result, waitForNextUpdate } = renderHook(() =>
+            useFetch("https://example/api")
+        );
+
+        expect(result.current.response).toEqual({});
+        expect(result.current.isLoading).toEqual(true);
+
+        await waitForNextUpdate();
+
+        expect(result.current.response).toEqual({});
+        expect(result.current.isLoading).toEqual(false);
+    });
+
     test("should not fetch api when api not provided", async () => {
 
         const { result } = renderHook(() =>

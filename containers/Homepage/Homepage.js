@@ -10,8 +10,6 @@ const Homepage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const { response, isLoading } = useFTSAutoComplete(6, searchTerm);
 
-    console.log('yooo response', response);
-
     return (<div className={styles.wrapper}>
         <Header></Header>
         <div className={styles.top}>
@@ -20,16 +18,19 @@ const Homepage = () => {
                 <h1>Where are you going?</h1>
                 <p>Pick-up Location</p>
                 <div className={styles.ctas}>
-                    <Searchbar
-                        onChange={(value) => setSearchTerm(value)}
-                        debounceMs={500}
-                        isLoading={isLoading}
-                        placeholder="city, airport, station, region and district..."
-                        ariaLabel="Pickup location"
-                    />
+                    <div className={styles.searchWrapper2}>
+                        <Searchbar
+                            onChange={(value) => setSearchTerm(value.length > 1 ? value : null)}
+                            debounceMs={200}
+                            isLoading={isLoading}
+                            placeholder="city, airport, station, region and district..."
+                            ariaLabel="Pickup location"
+                        />
+                        {response ? <SearchResults results={response?.results?.docs} /> : null}
+                    </div>
                     <button className={styles.searchButton}>Search</button>
                 </div>
-                {response && <SearchResults results={response?.results?.docs} />}
+
             </div>
         </div>
     </div>);

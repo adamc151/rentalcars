@@ -29,9 +29,20 @@
   padding: 16px;
 }
 
+.searchWrapper2 {
+  position: relative;
+  width: 100%;
+}
+
 .ctas {
   display: flex;
   flex-direction: column;
+}
+
+.searchResults {
+  position: absolute;
+  top: 44px;
+  width: 100%;
 }
 
 .searchButton {

@@ -15,7 +15,9 @@ const useFetch = (api) => {
                 setIsLoading(false);
             } catch (e) { setIsLoading(false); }
         };
-        api && myFetch();
+
+        api ? myFetch() : setResponse({});
+
     }, [api]);
 
     return { response, isLoading };
