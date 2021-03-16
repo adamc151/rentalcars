@@ -13,7 +13,9 @@ const useFetch = (api) => {
                 const data = await response.json();
                 setResponse(data);
                 setIsLoading(false);
-            } catch (e) { setIsLoading(false); }
+            } catch (e) {
+                setIsLoading(false);
+            }
         };
 
         api ? myFetch() : setResponse({});

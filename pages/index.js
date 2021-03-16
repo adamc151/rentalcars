@@ -1,23 +1,33 @@
 import Head from 'next/head'
-import Homepage from '../containers/Homepage/Homepage';
+import styles from './index.module.css';
+import PlacesSearch from '../containers/PlacesSearch/PlacesSearch';
+import Header from '../components/Header/Header';
 
 export default function Home() {
   return (
-    <div className="container">
+    <div className={styles.container}>
       <Head>
         <title>Rentalcars</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <Homepage />
-      </main>
+        <div className={styles.wrapper}>
+          <Header></Header>
+          <div className={styles.top}>
+            <h1 className={styles.heading}>Car Hire – Search, Compare & Save</h1>
+            <div className={styles.searchWrapper}>
+              <h1>Where are you going?</h1>
+              <p>Pick-up Location</p>
+              <div className={styles.ctas}>
+                <PlacesSearch />
+                <button className={styles.searchButton}>Search</button>
+              </div>
 
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-        }
-      `}</style>
+            </div>
+          </div>
+        </div>
+      </main>
 
       <style jsx global>{`
         html,
@@ -28,7 +38,6 @@ export default function Home() {
             Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
             sans-serif;
         }
-
         * {
           box-sizing: border-box;
         }

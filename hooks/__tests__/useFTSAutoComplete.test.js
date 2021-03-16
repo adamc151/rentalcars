@@ -13,7 +13,7 @@ describe("test", () => {
                 solrIndex: 'fts_en',
                 solrRows: '6',
                 solrTerm: 'mysearchterm'
-            }).reply(200, { hello: "world" });
+            }).reply(200, { results: { docs: ["hello world"] } });
 
         const { result, waitForNextUpdate } = renderHook(() =>
             useFTSAutoComplete(6, "mysearchterm")
@@ -24,7 +24,7 @@ describe("test", () => {
 
         await waitForNextUpdate();
 
-        expect(result.current.response).toEqual({ hello: "world" });
+        expect(result.current.response).toEqual(["hello world"]);
         expect(result.current.isLoading).toEqual(false);
     });
 

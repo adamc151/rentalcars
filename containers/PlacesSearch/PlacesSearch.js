@@ -4,17 +4,17 @@ import Searchbar from '../../components/Searchbar/Searchbar';
 import useFTSAutoComplete from '../../hooks/useFTSAutoComplete';
 import SearchResults from '../../components/SearchResults/SearchResults';
 
-const MAX_SEARCH_RESULTS = 6;
-
 const PlacesSearch = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [selectedResult, setSelectedResult] = useState(0);
     const [resultsVisible, setResultsVisible] = useState(true);
-    const { response: places, isLoading } = useFTSAutoComplete(MAX_SEARCH_RESULTS, searchTerm);
+    const { response: places, isLoading } = useFTSAutoComplete(searchTerm);
     const placesEl = useRef(null);
 
+    // To navigate the list of results with up / down arrow keys
+    // And select result on Enter
     const handleKeyPress = (event) => {
         switch (event.key) {
             case "ArrowDown":
@@ -28,13 +28,12 @@ const PlacesSearch = () => {
                 setResultsVisible(!resultsVisible);
                 break;
             default:
-                setInputValue('');
         }
     }
 
-    const handleBodyClick = (e) => setResultsVisible(placesEl?.current?.contains?.(e.target));
-
+    // To open / close the results dropdown on inside / outside click
     useEffect(() => {
+        const handleBodyClick = (e) => setResultsVisible(placesEl?.current?.contains?.(e.target));
         document.addEventListener("mousedown", handleBodyClick, false);
         document.addEventListener("touchstart", handleBodyClick, false);
 
@@ -44,6 +43,7 @@ const PlacesSearch = () => {
         });
     }, []);
 
+    // Select 1st result by default
     useEffect(() => {
         setSelectedResult(0);
         setResultsVisible(true);
@@ -52,12 +52,16 @@ const PlacesSearch = () => {
     return (
         <div className={styles.wrapper} ref={placesEl} onKeyDown={handleKeyPress} >
             <Searchbar
-                onChange={(value) => setSearchTerm(value.length > 1 ? value : null)}
-                debounceMs={200}
+                value={inputValue}
+                onChange={(value) => setInputValue(value)}
+                debouncedOnChange={(value) => setSearchTerm(value.length > 1 ? value : null)}
+                debounceMs={300}
                 isLoading={isLoading}
                 placeholder="city, airport, station, region and district..."
                 ariaLabel="Pickup location"
-                value={inputValue}
+                aria-haspopup="listbox"
+                id="searchbar"
+                autoComplete="off"
             />
             {resultsVisible && <SearchResults
                 results={places}
@@ -69,7 +73,6 @@ const PlacesSearch = () => {
                 }}
             />}
         </div>
-
     );
 }
 
