@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './PlacesSearch.module.css';
 import Searchbar from '../../components/Searchbar/Searchbar';
-import useFTSAutoComplete from '../../hooks/useFTSAutoComplete';
+import useFTSAutoComplete from '../../apiUtils/useFTSAutoComplete';
 import SearchResults from '../../components/SearchResults/SearchResults';
 
 const PlacesSearch = () => {
@@ -16,6 +16,7 @@ const PlacesSearch = () => {
     // To navigate the list of results with up / down arrow keys
     // And select result on Enter
     const handleKeyPress = (event) => {
+        if (!places?.length) return;
         switch (event.key) {
             case "ArrowDown":
                 selectedResult < places?.length - 1 && setSelectedResult(selectedResult + 1);
@@ -24,10 +25,9 @@ const PlacesSearch = () => {
                 selectedResult > 0 && setSelectedResult(selectedResult - 1);
                 break;
             case "Enter":
-                setInputValue(resultsVisible ? places[selectedResult].name : '');
+                setInputValue(places[selectedResult].name);
                 setResultsVisible(!resultsVisible);
                 break;
-            default:
         }
     }
 
@@ -50,7 +50,7 @@ const PlacesSearch = () => {
     }, [places])
 
     return (
-        <div className={styles.wrapper} ref={placesEl} onKeyDown={handleKeyPress} >
+        <div data-testid="PlacesSearchWrapper" className={styles.wrapper} ref={placesEl} onKeyDown={handleKeyPress} >
             <Searchbar
                 value={inputValue}
                 onChange={(value) => setInputValue(value)}
@@ -58,9 +58,9 @@ const PlacesSearch = () => {
                 debounceMs={300}
                 isLoading={isLoading}
                 placeholder="city, airport, station, region and district..."
-                ariaLabel="Pickup location"
+                id="searchBar"
                 aria-haspopup="listbox"
-                id="searchbar"
+                ariaLabel={'Pick-up Location'}
                 autoComplete="off"
             />
             {resultsVisible && <SearchResults

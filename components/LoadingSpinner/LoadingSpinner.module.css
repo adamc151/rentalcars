@@ -1,6 +1,7 @@
 .loader {
   display: inline-block;
 }
+
 .loader:after {
   content: " ";
   display: block;
@@ -10,9 +11,10 @@
   border-radius: 50%;
   border: 1px solid #000;
   border-color: #000 transparent #000 transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
+  animation: spin 1.2s linear infinite;
 }
-@keyframes lds-dual-ring {
+
+@keyframes spin {
   0% {
     transform: rotate(0deg);
   }

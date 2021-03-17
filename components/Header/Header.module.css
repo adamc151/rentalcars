@@ -1,14 +1,7 @@
 .wrapper {
-  background-color: #1970b7;
-  height: 64px;
-  padding: 16px;
-}
-
-.inner {
   width: 100%;
-  max-width: 1100px;
-  height: 100%;
-  margin: auto;
+  height: 64px;
+  padding: 16px 0;
 }
 
 .logo {

@@ -14,7 +14,12 @@ const SearchResults = ({ results, selectedIndex, onClickItem, onMouseEnterItem }
     if (!results?.length) return null;
 
     return <div className={styles.wrapper}>
-        {results ? (<ul className={styles.listWrapper} role="listbox" aria-activedescendant="listItem0" tabIndex="0" aria-labelledby="exp_input" >
+        <ul
+            className={styles.listWrapper}
+            role="listbox"
+            aria-activedescendant={`listItem${selectedIndex}`}
+            tabIndex="0"
+        >
             {results.map((place, i) => {
                 return <li
                     className={styles.lineItem}
@@ -27,12 +32,12 @@ const SearchResults = ({ results, selectedIndex, onClickItem, onMouseEnterItem }
                 >
                     {placeTypes[place.placeType]}
                     <div className={styles.placeDetails}>
-                        <div className={styles.placeName}>{place.name} {place.iata ? `(${place.iata})` : ''}</div>
-                        <div className={styles.placeLocation}>{place.city ? `${place.city},` : ''} {place.country}</div>
+                        <div className={styles.placeName}>{place.name}{place.iata ? ` (${place.iata})` : ''}</div>
+                        <div className={styles.placeLocation}>{place.city ? `${place.city}, ` : ''}{place.country}</div>
                     </div>
                 </li>
             })}
-        </ul>) : null}
+        </ul>
     </div >
 }
 

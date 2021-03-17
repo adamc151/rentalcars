@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce';
 import styles from './Searchbar.module.css';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
-const Searchbar = ({ onChange = () => { }, debouncedOnChange = () => { }, debounceMs = 0, value, isLoading, placeholder, ariaLabel = 'input', ...rest }) => {
+const Searchbar = ({ onChange = () => { }, debouncedOnChange = () => { }, debounceMs = 0, value, isLoading, ariaLabel = 'input', ...rest }) => {
     const myDebouncedOnChange = useRef(debounce(nextValue => debouncedOnChange(nextValue), debounceMs)).current;
 
     return <div className={styles.wrapper}>
@@ -18,7 +18,7 @@ const Searchbar = ({ onChange = () => { }, debouncedOnChange = () => { }, deboun
             aria-label={ariaLabel}
             {...rest}
         />
-        {isLoading ? <div className={styles.loading}><LoadingSpinner /></div> : null}
+        {isLoading ? <div data-testid="loadingSpinner" className={styles.loading}><LoadingSpinner /></div> : null}
     </div>
 }
 

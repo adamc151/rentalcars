@@ -14,16 +14,13 @@ export default function Home() {
       <main>
         <div className={styles.wrapper}>
           <Header></Header>
-          <div className={styles.top}>
-            <h1 className={styles.heading}>Car Hire – Search, Compare & Save</h1>
-            <div className={styles.searchWrapper}>
-              <h1>Where are you going?</h1>
-              <p>Pick-up Location</p>
-              <div className={styles.ctas}>
-                <PlacesSearch />
-                <button className={styles.searchButton}>Search</button>
-              </div>
-
+          <h1 className={styles.heading}>Car Hire – Search, Compare & Save</h1>
+          <div className={styles.searchWrapper}>
+            <h2>Where are you going?</h2>
+            <p id="searchBarLabel">Pick-up Location</p>
+            <div className={styles.ctas}>
+              <PlacesSearch />
+              <button className={styles.searchButton}>Search</button>
             </div>
           </div>
         </div>

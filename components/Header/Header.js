@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Header.module.css';
 
-const Header = () => {
-    return <div className={styles.wrapper}><div className={styles.inner}><a className={styles.logo}></a></div></div>
-}
+const Header = () => <div className={styles.wrapper}>
+    <a className={styles.logo} href="https://www.rentalcars.com/" alt={"RentalCars.com"} ></a>
+</div>;
 
 export default Header;
