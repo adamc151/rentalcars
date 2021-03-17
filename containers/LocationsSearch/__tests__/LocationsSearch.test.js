@@ -1,5 +1,5 @@
 const nock = require("nock");
-import PlacesSearch from '../PlacesSearch';
+import LocationsSearch from '../LocationsSearch';
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react'
 import manchesterMock from '../__mocks__/manchester.json';
 import noResults from '../__mocks__/noResults.json';
@@ -40,13 +40,13 @@ beforeEach(() => {
 
 
 it('should have correct placeholder text for searchbar', async () => {
-    render(<PlacesSearch />);
+    render(<LocationsSearch />);
     expect(getSearchInput().placeholder).toBe('city, airport, station, region and district...');
 })
 
 
 it('Should display results of search', async () => {
-    render(<PlacesSearch />);
+    render(<LocationsSearch />);
     setSearchValue('manchester');
     await waitFor(() => expect(getResults().length).toBe(6));
 })
@@ -55,7 +55,7 @@ it('Should display results of search', async () => {
 it('Should display results not found', async () => {
 
     setupMock(6, 'xhdshjfeucdi', noResults);
-    render(<PlacesSearch />);
+    render(<LocationsSearch />);
 
     setSearchValue('xhdshjfeucdi');
     await waitFor(() => expect(getResults().length).toBe(1));
@@ -72,7 +72,7 @@ it('Should display something went wrong', async () => {
             solrTerm: 'aaaaa',
         }).replyWithError("Error");
 
-    render(<PlacesSearch />);
+    render(<LocationsSearch />);
 
     setSearchValue('aaaaa');
     await waitFor(() => expect(getResults().length).toBe(1));
@@ -84,7 +84,7 @@ it('Should meet single character requirements', async () => {
 
     setupMock(6, 'm', manchesterMock);
     setupMock(6, 'ma', manchesterMock);
-    render(<PlacesSearch />);
+    render(<LocationsSearch />);
 
     //Don't display results when 1 character is entered  
     setSearchValue('m');
@@ -102,7 +102,7 @@ it('Should meet single character requirements', async () => {
 
 it('should set search input value equal to result that is clicked', async () => {
 
-    render(<PlacesSearch />);
+    render(<LocationsSearch />);
     setSearchValue('manchester');
 
     await waitFor(() => expect(getResults().length).toBe(6));
@@ -113,7 +113,7 @@ it('should set search input value equal to result that is clicked', async () => 
     fireEvent.click(getSelectedResult());
 
     await waitFor(() => expect(getResults().length).toBe(0));
-    expect(getSearchInput().value).toBe('Manchester')
+    expect(getSearchInput().value).toBe('Manchester, United Kingdom')
 })
 
 
@@ -123,12 +123,12 @@ it('should hide results on outside click, and show results again on inside click
     const map = {};
     document.addEventListener = jest.fn((event, cb) => map[event] = cb);
 
-    render(<div data-testid="outsidePlacesSearch"><PlacesSearch /></div>);
+    render(<div data-testid="outsideLocationsSearch"><LocationsSearch /></div>);
 
     setSearchValue('manchester');
     await waitFor(() => expect(getResults().length).toBe(6));
 
-    act(() => map.mousedown({ target: screen.getByTestId('outsidePlacesSearch') }));
+    act(() => map.mousedown({ target: screen.getByTestId('outsideLocationsSearch') }));
 
     await waitFor(() => expect(getResults().length).toBe(0));
 })
@@ -138,7 +138,7 @@ describe('Accessibility keyboard events', () => {
 
     it('should initially set first result as selected', async () => {
 
-        render(<PlacesSearch />);
+        render(<LocationsSearch />);
         setSearchValue('manchester');
         await waitFor(() => expect(getSelectedResult().textContent).toBe("AirportManchester Airport (MAN)Manchester, United Kingdom"));
     })
@@ -146,20 +146,20 @@ describe('Accessibility keyboard events', () => {
 
     it('should set search input value to selected result when Enter key pressed', async () => {
 
-        render(<PlacesSearch />);
+        render(<LocationsSearch />);
         setSearchValue('manchester');
 
         await waitFor(() => expect(getSelectedResult().textContent).toBe("AirportManchester Airport (MAN)Manchester, United Kingdom"));
 
-        fireEvent.keyDown(screen.getByTestId('PlacesSearchWrapper'), { key: 'Enter' })
+        fireEvent.keyDown(screen.getByTestId('LocationsSearchWrapper'), { key: 'Enter' })
         await waitFor(() => expect(getResults().length).toBe(0));
-        expect(getSearchInput().value).toBe('Manchester Airport')
+        expect(getSearchInput().value).toBe('Manchester Airport (MAN), Manchester, United Kingdom')
     })
 
 
     it('should change selected result with ArrowUp key and ArrowDown key', async () => {
 
-        render(<PlacesSearch />);
+        render(<LocationsSearch />);
         setSearchValue('manchester');
 
         await waitFor(() => expect(getSelectedResult().textContent).toBe("AirportManchester Airport (MAN)Manchester, United Kingdom"));
@@ -177,8 +177,8 @@ describe('Accessibility keyboard events', () => {
 
     it('should do nothing when no results and Enter key pressed', async () => {
 
-        render(<PlacesSearch />);
-        fireEvent.keyDown(screen.getByTestId('PlacesSearchWrapper'), { key: 'Enter' })
+        render(<LocationsSearch />);
+        fireEvent.keyDown(screen.getByTestId('LocationsSearchWrapper'), { key: 'Enter' })
         expect(getSearchInput().value).toBe('')
     })
 })

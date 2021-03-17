@@ -1,8 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ![app preview](./rentalcars.png)
 
-## How to run
+## How to run the App
 
 1. ### Install Dependencies
 
@@ -22,7 +20,7 @@ npm run build && npm run start
 yarn build && yarn start
 ```
 
-<i>FYI You can also run a production build inside a docker container by running: `make build`<i>
+<i>FYI You can also run a production build inside a docker container by running: `make build`</i>
 
 #### To run Development server:
 
@@ -35,3 +33,11 @@ yarn dev
 3. ### Hit Endpoint
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result!!
+
+## How to run the unit tests
+
+```bash
+npm run test
+# or
+yarn test
+```

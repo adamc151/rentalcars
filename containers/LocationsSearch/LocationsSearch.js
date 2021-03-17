@@ -1,31 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './PlacesSearch.module.css';
+import styles from './LocationsSearch.module.css';
 import Searchbar from '../../components/Searchbar/Searchbar';
 import useFTSAutoComplete from '../../apiUtils/useFTSAutoComplete';
-import SearchResults from '../../components/SearchResults/SearchResults';
+import SearchResults, { getFormattedLocation } from '../../components/SearchResults/SearchResults';
 
-const PlacesSearch = () => {
+const LocationsSearch = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [selectedResult, setSelectedResult] = useState(0);
     const [resultsVisible, setResultsVisible] = useState(true);
-    const { response: places, isLoading } = useFTSAutoComplete(searchTerm);
-    const placesEl = useRef(null);
+    const { response: locations, isLoading } = useFTSAutoComplete(searchTerm);
+    const locationsEl = useRef(null);
 
     // To navigate the list of results with up / down arrow keys
     // And select result on Enter
     const handleKeyPress = (event) => {
-        if (!places?.length) return;
+        if (!locations?.length) return;
         switch (event.key) {
             case "ArrowDown":
-                selectedResult < places?.length - 1 && setSelectedResult(selectedResult + 1);
+                selectedResult < locations?.length - 1 && setSelectedResult(selectedResult + 1);
                 break;
             case "ArrowUp":
                 selectedResult > 0 && setSelectedResult(selectedResult - 1);
                 break;
             case "Enter":
-                setInputValue(places[selectedResult].name);
+                setInputValue(getFormattedLocation(locations[selectedResult]).longName);
                 setResultsVisible(!resultsVisible);
                 break;
         }
@@ -33,7 +33,7 @@ const PlacesSearch = () => {
 
     // To open / close the results dropdown on inside / outside click
     useEffect(() => {
-        const handleBodyClick = (e) => setResultsVisible(placesEl?.current?.contains?.(e.target));
+        const handleBodyClick = (e) => setResultsVisible(locationsEl?.current?.contains?.(e.target));
         document.addEventListener("mousedown", handleBodyClick, false);
         document.addEventListener("touchstart", handleBodyClick, false);
 
@@ -47,10 +47,10 @@ const PlacesSearch = () => {
     useEffect(() => {
         setSelectedResult(0);
         setResultsVisible(true);
-    }, [places])
+    }, [locations])
 
     return (
-        <div data-testid="PlacesSearchWrapper" className={styles.wrapper} ref={placesEl} onKeyDown={handleKeyPress} >
+        <div data-testid="LocationsSearchWrapper" className={styles.wrapper} ref={locationsEl} onKeyDown={handleKeyPress} >
             <Searchbar
                 value={inputValue}
                 onChange={(value) => setInputValue(value)}
@@ -64,11 +64,11 @@ const PlacesSearch = () => {
                 autoComplete="off"
             />
             {resultsVisible && <SearchResults
-                results={places}
+                results={locations}
                 selectedIndex={selectedResult}
                 onMouseEnterItem={(index) => setSelectedResult(index)}
-                onClickItem={(index, place) => {
-                    setInputValue(place.name);
+                onClickItem={(index, name) => {
+                    setInputValue(name);
                     setResultsVisible(false);
                 }}
             />}
@@ -76,4 +76,4 @@ const PlacesSearch = () => {
     );
 }
 
-export default PlacesSearch;
+export default LocationsSearch;

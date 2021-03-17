@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from './index.module.css';
-import PlacesSearch from '../containers/PlacesSearch/PlacesSearch';
+import LocationsSearch from '../containers/LocationsSearch/LocationsSearch';
 import Header from '../components/Header/Header';
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
             <h2>Where are you going?</h2>
             <p id="searchBarLabel">Pick-up Location</p>
             <div className={styles.ctas}>
-              <PlacesSearch />
+              <LocationsSearch />
               <button className={styles.searchButton}>Search</button>
             </div>
           </div>

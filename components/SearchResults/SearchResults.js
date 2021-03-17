@@ -9,6 +9,19 @@ const placeTypes = {
     D: <div className={`${styles.placeType} ${styles.district}`}>District</div>
 }
 
+export const getFormattedLocation = (location) => {
+
+    const name = `${location.name}${location.iata ? ` (${location.iata})` : ''}`;
+    const cityAndCountry = `${location.city ? `${location.city}, ` : ''}${location.country || ''}`;
+    const longName = `${cityAndCountry ? `${name}, ${cityAndCountry}` : name}`;
+
+    return {
+        name,
+        cityAndCountry,
+        longName,
+    }
+};
+
 const SearchResults = ({ results, selectedIndex, onClickItem, onMouseEnterItem }) => {
 
     if (!results?.length) return null;
@@ -20,20 +33,23 @@ const SearchResults = ({ results, selectedIndex, onClickItem, onMouseEnterItem }
             aria-activedescendant={`listItem${selectedIndex}`}
             tabIndex="0"
         >
-            {results.map((place, i) => {
+            {results.map((location, i) => {
+
+                const { name, cityAndCountry, longName } = getFormattedLocation(location);
+
                 return <li
                     className={styles.lineItem}
                     key={i}
                     role="option"
                     id={`listItem${i}`}
                     aria-selected={i === selectedIndex}
-                    onMouseEnter={() => onMouseEnterItem(i, place)}
-                    onClick={() => onClickItem(i, place)}
+                    onMouseEnter={() => onMouseEnterItem(i, location)}
+                    onClick={() => onClickItem(i, longName)}
                 >
-                    {placeTypes[place.placeType]}
+                    {placeTypes[location.placeType]}
                     <div className={styles.placeDetails}>
-                        <div className={styles.placeName}>{place.name}{place.iata ? ` (${place.iata})` : ''}</div>
-                        <div className={styles.placeLocation}>{place.city ? `${place.city}, ` : ''}{place.country}</div>
+                        <div className={styles.placeName}>{name}</div>
+                        <div className={styles.placeLocation}>{cityAndCountry}</div>
                     </div>
                 </li>
             })}
