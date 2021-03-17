@@ -59,7 +59,7 @@ const PlacesSearch = () => {
                 isLoading={isLoading}
                 placeholder="city, airport, station, region and district..."
                 id="searchBar"
-                aria-haspopup="listbox"
+                aria-haspopup={"true"}
                 ariaLabel={'Pick-up Location'}
                 autoComplete="off"
             />
